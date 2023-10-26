@@ -6,7 +6,7 @@ import { IContact } from '../../types/types';
 const Pagination = () => {
     const contacts: IContact[] = useAppSelector(getFilteredContacts);
      const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 15;
+  const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const records = contacts.slice(firstIndex, lastIndex);

@@ -5,7 +5,7 @@ import Filter from '../../components/Filter/Filter';
 import { useSelector } from 'react-redux';
 import { getIsloading } from '../../redux/selectors';
 import { Loader } from '../../components/Loader/Loader';
-import { Wrapper, FilterConractWrap } from './Friends.styled';
+import { Wrapper, FilterConractWrap , Text} from './Friends.styled';
 
 import { getContcts } from '../../redux/operations';
 import { useEffect } from 'react';
@@ -33,6 +33,7 @@ export function Contacts() {
           <ContactList />
         </FilterConractWrap>
       </Wrapper>
+      <Text > Have a nice day!</Text>
     </>
   );
 }
