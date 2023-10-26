@@ -12,10 +12,19 @@ import {IForm}   from '../ContactForm/ContactForm';
 
 function ContactList() {
   const contacts: IContact[] = useAppSelector(getFilteredContacts);
-const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  
 
   const [editingContact, setEditingContact] = useState<IContact | null>(null);
   const [updatedData, setUpdatedData] = useState<IForm | null>(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 15;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = contacts.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(contacts.length / recordsPerPage)
+  const numbers : number[]  = [...Array(nPage + 1).keys()].slice(1);
 
   const handleDelete = (id: string ) => {
      dispatch(deleteContacts(id) );
@@ -44,11 +53,26 @@ const dispatch = useAppDispatch();
     setEditingContact(null);
   };
 
+  function prePage() {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+  function nextPage() {
+    if (currentPage !== nPage) {
+      setCurrentPage(currentPage + 1)
+    
+    }
+  }
+  function changeCPage(id: number) {
+    setCurrentPage(id)
+  }
+
   return (
     <>
       {contacts.length && (
         <List>
-          {contacts.map((contact : IContact  ) => (
+          {records.map((contact : IContact  ) => (
             <Item key={contact.id}>
               {editingContact === contact ? (
                 <div>
@@ -119,8 +143,23 @@ const dispatch = useAppDispatch();
           ))}
         </List>
       )}
+      <ul className='pagination'>
+        <li className='page-item'>
+          <button type='button' className='page-link'  onClick={prePage}>Prev</button>
+        </li>
+        {numbers.map((n, index) => (
+          <li key={index} className={`page-item ${currentPage === n  ? 'active' : ""}`}>
+            <button type="button" className='page-link'  onClick={()=>changeCPage(n)}>{ n}</button>
+          </li>
+        ))}
+          <li className='page-item'>
+          <button type="button" className='page-link'  onClick={nextPage}>Next</button>
+        </li>
+      </ul>
     </>
   );
 }
+
+
 
 export default ContactList;

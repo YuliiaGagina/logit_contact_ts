@@ -5,7 +5,7 @@ import { IForm } from '../components/ContactForm/ContactForm';
 import { IContact } from '../types/types';
 
 export const getContcts = createAsyncThunk('people/getAll', async (): Promise<IContact[]> => {
-  const response = await instance.get('/table/');
+  const response = await instance.get('/table/?limit=170&offset=10');
   return response.data.results;
 });
 
